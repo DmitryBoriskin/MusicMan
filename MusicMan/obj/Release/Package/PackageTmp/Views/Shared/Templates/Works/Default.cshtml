@@ -1,0 +1,45 @@
+﻿@model WorkList
+@{
+    Layout = null;
+    var st = String.Empty;
+}
+
+@if (Model != null)
+{
+    <div class="video">
+        <div class="row">
+            <div class="col-md-8 col-lg-9">
+                @if (@Model.Data[0].Video != null)
+                {
+                    <video id="player" controls="controls" poster="@Model.Data[0].Preview">
+                        <source src="@Model.Data[0].Video" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2">
+                    </video>
+                }
+                else
+                {
+                    <iframe class="youtube" src="@Model.Data[0].Url" frameborder="0" allowfullscreen></iframe>
+                }
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="video-list">
+                    <div class="row">
+                        @for (int i = 1; i < Model.Data.Length; i++)
+                        {
+                            if (i == 7) { st = "visible-lg"; }
+                            else if (i == 6) { st = "hidden-md"; }
+                            else { st = ""; }
+                            WorkModel item = Model.Data[i];
+                            <div class="col-xs-6 col-md-12 @st">
+                                <div class="video-item">
+                                    <div class="video-preview"><a title="" href="/@item.User#work-@item.Id"><img title="" src="@item.Preview" /></a></div>
+                                    <div class="video-name"><a title="" href="/@item.User#work-@item.Id">@item.Title</a></div>
+                                    <div class="video-autor"><a href="/@item.User/">@item.UserName</a></div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <div class="slider">
+        <div class="wrapper">
+            <ul id="sb-slider" class="sb-slider">
+                @foreach (var item in Model)
+                {
+                    var _target = (item.Target) ? "_blank" : "";
+                    <li>
+                        <a href="@item.Link" target="@_target"><img src="@item.Image" alt="image1" /></a>
+                        @*<div class="sb-description">
+                            @Html.Raw(item.Title)
+                        </div>*@
+                    </li>
+                }              
+            </ul>
+            <div id="shadow" class="shadow"></div>
+        </div>
+    </div>
+}

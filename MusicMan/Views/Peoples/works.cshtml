@@ -1,0 +1,116 @@
+﻿@model AccountViewModel
+
+<div class="page-content">
+    <div class="account-info wite-block">
+        <div><h4><a title="" href="/@Model.Item.PageName">@Model.Item.Name @Model.Item.LastName</a> > @ViewBag.Title</h4></div>
+    </div>
+    <div class="work-list">
+        @if (Model.AccountWorks != null)
+        {
+            if (Model.AccountWorks.Data != null)
+            {
+                if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                {
+                    <div class="work-item wite-block new">
+                        <div class="new-item">Добавить новую запись</div>
+                        <div class="work-item-form">
+                            @Html.TextBox("Title", "", new { required = "", @placeholder = "заголовок" })
+                            @Html.TextBox("Info", "", new { @title = "Описание" })
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <span class="add-photo"></span>
+                                    <span class="add-video"></span>
+                                    <span class="add-music"></span>
+                                </div>
+                                <div class="col-xs-8" style="text-align: right;">
+                                    <button id="send-btn" class="btn">Войти</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                foreach (WorkModel item in Model.AccountWorks.Data)
+                {
+                    <div id="work-@item.Id" class="work-item wite-block">
+                            @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                            {
+                                <div class="del-work"><a data-id="@item.Id" href="/del/">x</a></div>
+                            }
+                            <div class="work-title">@item.Title</div>
+                            <div class="work-date">
+                                Опубликовано: <span>@item.Date.ToString("dd MMM. yyyy в HH:mm")</span>
+                            </div>
+                            @if (item.Type == "text" && !String.IsNullOrEmpty(item.Preview))
+                            {
+                                <div class="image"><img src="@item.Preview" /></div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Video))
+                            {
+                                <div class="video-block">
+                                    <video width="100%" height="100%" id="player" controls="controls" poster="@item.Preview">
+                                        <source src="@item.Video" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2">
+                                    </video>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Url))
+                            {
+                                <div class="video-block">
+                                    <iframe class="youtube" width="100%" height="100%" src="@item.Url" frameborder="0" allowfullscreen></iframe>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Audio))
+                            {
+                                <div class="audio-block">
+                                    <audio controls src="@item.Audio" typeof="audio/mpeg"></audio>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (item.Photoalbom.List != null)
+                            {
+                                <div class="photo-block">
+                                    <div class="photo-gallary">
+                                        @foreach (PhotoModel photo in item.Photoalbom.List)
+                                        {
+                                            <div class="gallary-item">
+                                                <a class="swipebox" href="@photo.Url" target="_blank">
+                                                    <img title="название" src="@photo.Preview" />
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <div class="work-info">
+                                @Html.Raw(item.Info)
+                            </div>
+                            @if (Model.Account != null)
+                            {
+                                <div class="work-date">
+                                    Мне нравится:
+                                    @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id, UserId = Model.Account.id }); }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="work-date">
+                                    Мне нравится:
+                                    @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id }); }
+                                </div>
+                            }
+                        </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">Не найдено ни одной записи.</div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">Не найдено ни одной записи.</div>
+        }
+    </div>
+</div>

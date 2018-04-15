@@ -1,0 +1,11 @@
+﻿
+@{ Html.RenderAction("Menu", "Templates"); }
+
+<div class="page-title">
+    <h1>@ViewBag.Title</h1>
+</div>
+<div class="page-content">
+    <div class="wite-block pad-20">
+        @Html.Raw(ViewBag.PageInfo)
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model AccountViewModel
+
+@section Header {
+    <link href="/Content/plugins/bootstrap/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-select.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-toggle.js"></script>
+
+}
+<div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+        <div class="login-form wite-block pad-20">
+            @using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="welocome-title">
+                        <div>@Settings.SiteTitle<span>@Settings.SiteDesc</span></div>
+                    </div>
+                    <div>
+                        <a class="login-vk" href="/Account/LogIn_vk">Войти с помощью VK</a>
+                        <a class="login-fb" href="/Account/LogIn_facebook">Войти с помощью Facebook</a>
+                    </div>
+                    <hr />
+                    <div class="welocome-login">
+                        @Html.TextBox("Name", "", new { required = "", @class = "RegField", title = "Имя", @placeholder = "Ввевите Ваше имя", max_length = 128  })
+                        <span class="wel-login icon-user-3"></span>
+                    </div>
+                    <div class="welocome-login">
+                        @Html.TextBox("LastName", "", new { required = "", @class = "RegField", title = "Фамилия", @placeholder = "Введите Вашу фамилию", max_length = 128 })
+                        <span class="wel-login icon-user-3"></span>
+                    </div>
+                    <div class="welocome-login">
+                        @Html.TextBox("Email", "", new { required = "", type = "email", title = "E-Mail", @class = "RegField", @placeholder = "user@domain.ru", max_length = 128 })
+                        <span class="wel-login icon-user-3"></span>
+                    </div>
+                    <div class="welocome-login">
+                        @Html.DropDownList("Category", new MultiSelectList(Model.CategoryList, "Value", "Text", null), new { required = "", @title = "Кто я", @class = "selectpicker", @multiple = "multiple" })
+                    </div>
+                    <div class="welcome-pass">
+                        @Html.Password("Pass", "", new { required = "", title = "Пароль", @class = "RegField", @placeholder = "Пароль", max_length = 16 })
+                        <span class="wel-pass icon-lock"></span>
+                        <div style="margin:0; padding: 0;" class="form-group">
+                            <label>* Длина пароля должна быть от 6 до 16 символов.<br />Он должен содержать строчные и прописные буквы и может содержать цифры.<br />Использование русских букв - не допускается.</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div>
+                        <button id="LoginButton" name="action" value="registration" class="reg-button">Зарегистрироваться</button>
+                    </div>
+                    <p>&nbsp;</p>
+                    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

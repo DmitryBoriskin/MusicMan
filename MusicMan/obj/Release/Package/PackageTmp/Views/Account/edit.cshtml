@@ -1,0 +1,55 @@
+﻿@model AccountViewModel
+
+@section Header {
+
+    <link href="/Content/plugins/bootstrap/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-select.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-toggle.js"></script>
+    
+}
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="account-photo wite-block">
+                <img alt="" src="@Model.Account.Photo" />
+            </div>
+            <div class="account-menu wite-block">
+                @{ Html.RenderAction("Menu", "Templates", new { viewName = "user" }); }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="account-info wite-block">
+                <h1>@ViewBag.Title</h1>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        @using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                        {
+                            @Html.TextBox("Photo", Model.Account.Photo, new { required = "", type = "file", title = "Изображение", accept = ".jpg,.jpeg,.png,.gif,.svg" })
+                            @Html.TextBox("Name", Model.Account.Name, new { @Title = "Имя", @placeholder = "Ввевите Ваше имя", MaxLength = "128" })
+                            @Html.TextBox("LastName", Model.Account.LastName, new { @Title = "Фамилия", @placeholder = "Введите Вашу фамилию", MaxLength = "128" })
+                            @Html.TextBox("PageName", Model.Account.PageName, new { @required = "", @Title = "Адрес страницы", @placeholder = "Адрес страницы (Имя профиля)", @MaxLength = "128" })
+                            @Html.DropDownList("Category", new MultiSelectList(Model.CategoryList, "Value", "Text", Model.Account.Category), new { @title = "направления деятельности", @class = "selectpicker", @multiple = "multiple" })
+                            <h4>Личная информация</h4>
+                            <div>
+                                <div class="phone-chbox">
+                                    @Html.CheckBox("DisablePhone", new { type = "checkbox", title = "Скрыть телефон", data_toggle = "toggle", data_on = "да", data_onstyle = "danger", data_off = "нет", data_offstyle = "success", data_width = "100" })
+                                </div>
+                                <div class="phone-input">
+                                    @Html.TextBox("Phone", Model.Account.Phone, new { maxlength = "64", @title = "Номер телефона", @placeholder = "+7 999 999999" })
+                                </div>
+                            </div>
+                            @Html.TextBox("Mail", Model.Account.Mail, new { required = "", type = "email", maxlength = "128", autocomplete = "off", title = "Email адрес" })
+                            @Html.TextArea("Description", Model.Account.Description, new { @title = "О себе", @type = "text", @rows = "8" })
+                            <div class="welcome-btn">
+                                <button id="LoginButton" name="action" value="edit" class="reg-button">Сохранить</button>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

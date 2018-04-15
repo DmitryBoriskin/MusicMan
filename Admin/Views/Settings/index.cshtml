@@ -1,0 +1,61 @@
+﻿@model SettingsViewModel
+
+@using (Html.BeginForm("", "Settings", FormMethod.Post, new { id = "settings-form" }))
+{
+    <div class="content">
+        <h1>Настройки сайта</h1>
+        @Html.TextBoxFor(m => m.Item.Title, new { required = "", Title = "Название", placeholder = "Название проекта", MaxLength = "128" })
+        @Html.TextBoxFor(m => m.Item.Marquee, new { Title = "Бегущая строка", placeholder = "Бегущая строка", MaxLength = "1024" })
+        @Html.TextAreaFor(m => m.Item.Info, new { title = "Описание проекта", type = "editor", rows = "8" })
+        <div class="group-block" title="Контактная информация">
+            @Html.TextAreaFor(m => m.Item.Contacts, new { type = "editor", rows = "8" })
+        </div>
+        <div class="group-block" title="Правила пользования сайтом">
+            @Html.TextAreaFor(m => m.Item.Regulations, new { type = "editor", rows = "8" })
+        </div>
+        <div class="group-block" title="Реклама на сайте">
+            @Html.TextAreaFor(m => m.Item.Advertising, new { type = "editor", rows = "8" })
+        </div>
+        <div class="group-block" title="Помощь проекту">
+            @Html.TextAreaFor(m => m.Item.Helping, new { type = "editor", rows = "8" })
+        </div>
+    </div>
+
+    <div class="dop_info-block">
+        <div class="dop-caption">Дополнительно</div>
+        @Html.TextBoxFor(m => m.Item.Domain, new { required = "", maxlength = "64", title = "Адрес доступа к CMS", data_help = "" })
+        <div class="group-block" title="Доп. контакты">
+            @Html.TextBoxFor(m => m.Item.Phone, new { maxlength = "64", title = "Телефон", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.skype, new { maxlength = "64", title = "Skype", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.telegram, new { maxlength = "64", title = "telegram", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.viber, new { maxlength = "64", title = "Viber", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.whatsapp, new { maxlength = "64", title = "WhatsApp", data_help = "" })
+            <hr />
+            @Html.TextBoxFor(m => m.Item.vk, new { maxlength = "64", title = "Адрес VK", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.facebook, new { maxlength = "64", title = "Адрес Facebook", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.instagram, new { maxlength = "64", title = "Адрес Instagram", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.youtube, new { maxlength = "64", title = "Адрес YouTube", data_help = "" })
+        </div>
+        <div class="group-block rules open" title="Исходящая почта">
+            @Html.TextBoxFor(m => m.Item.MailServer, new { maxlength = "64", title = "Адрес сервера", data_help = "" })
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Item.MailPort, new { maxlength = "64", title = "порт", data_help = "" })
+                </div>
+                <div class="col-md-6">
+                    @Html.CheckBoxFor(m => m.Item.SSL, new { type = "checkbox", title = "использовать ssl", data_toggle = "toggle", data_help = "123", data_on = "да", data_onstyle = "success", data_off = "нет", data_offstyle = "danger", data_width = 100 })
+                </div>
+            </div>
+            @Html.TextBoxFor(m => m.Item.MailFrom, new { maxlength = "64", title = "Адрес исходящей почты", data_help = "" })
+            @Html.TextBoxFor(m => m.Item.MailFromAlias, new { maxlength = "64", title = "Название исходящей почты", data_help = "" })
+            @Html.TextBox("Item.MailPass", "", new { @title = "Пароль от почтового ящика", @placeholder = "******", @MaxLength = "32" })
+            @Html.TextBoxFor(m => m.Item.MailTo, new { maxlength = "64", title = "Адрес почты администратора", data_help = "" })
+
+        </div>
+        @Html.ActionLink("Журнал изменений", "log", "services", new { @id = Model.Item.Id }, new { @id = "LogLists", @class = "button pop-up_frame icon-archive", @data_class = "LogList", @title = "Журнал изменений" })
+    </div>
+}
+<div class="buttons">
+    <button form="settings-form" type="submit"data-primary="true" class="button icon-create">Сохранить</button>
+    @*<button type="submit" class="button icon-cancel">Закрыть</button>*@
+</div>

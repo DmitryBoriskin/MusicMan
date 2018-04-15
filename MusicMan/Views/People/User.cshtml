@@ -1,0 +1,36 @@
+﻿
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 page-menu">
+            @foreach (var item in Model.GroupList)
+            {
+                <div class="people-category @item.selected">
+                    <a href="/peoples/@item.value/">@item.text</a>
+                </div>
+            }
+        </div>
+        <div class="col-md-9">
+            <h1>@ViewBag.Title</h1>
+            <div class="people-list">
+                @if (Model.List != null)
+                {
+                    foreach (UsersModel Item in Model.List.Data)
+                    {
+                        <div class="people-item">
+                            <img class="people-photo" alt="" src="@Item.Photo.Url" />
+                            <div class="people-info">
+                                <a title="" class="li-caption" href="/@Item.PageName">@Item.NicName</a>
+                                <div class="li-desc"><a title="" href="/peoples/@Item.Group">@Item.GroupName</a></div>
+                            </div>
+                        </div>
+                    }
+                    //Html.RenderAction("Pager", "Templates", new { @Model = Model.List.Pager });
+                }
+                else
+                {
+                    <div class="alert alert-info">Не найдено ни одной записи.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

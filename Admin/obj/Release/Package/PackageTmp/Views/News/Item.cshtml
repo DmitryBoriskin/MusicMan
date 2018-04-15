@@ -1,0 +1,68 @@
+﻿@model WorksViewModel
+
+@using (Html.BeginForm("Item", "News", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "edit-form" }))
+{
+    <div class="content">
+        <h1>@ViewBag.Title</h1>
+        @Html.TextBoxFor(m => m.Item.Title, new { required = "", type = "text", maxlength = "128", title = "Заголовок" })
+        <div class="row">
+            <div class="col-md-6">
+                @Html.TextBoxFor(m => m.Item.Preview, new { type = "file", title = "Картинка для предпросмотра", data_url = Model.Item.Preview, data_help = "размер фотографии должен быть не менне 800 точек по ширине" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextAreaFor(m => m.Item.Desc, new { title = "Краткое описание", height = "300", maxlength = "512", rows = 6 })
+            </div>
+        </div>
+        <div class="group-block" title="Текст новости">
+            @Html.TextAreaFor(m => m.Item.Info, new { type = "editor", height = "300" })
+        </div>
+        @Html.TextBoxFor(m => m.Item.Url, new { type = "text", title = "Ссылка на видеоролик", placeholder = "http://", MaxLength = "128" })
+        <h3 class="nesting_title">Видеозапись</h3>
+        @Html.TextBoxFor(m => m.Item.Video, new { type = "file", title = "Видео, загруженное на сервер", data_help = "размер фотографии должен быть не менне 400 точек по ширине и пропорции картинки - 4х3" })
+        <h3 class="nesting_title">Аудиозапись</h3>
+        @Html.TextBoxFor(m => m.Item.Audio, new { type = "file", title = "Аудиофайл", data_help = "размер фотографии должен быть не менне 400 точек по ширине и пропорции картинки - 4х3" })
+
+        @if (Model.Item != null && Model.Item.Photoalbom != null)
+        {
+            <h3 class="nesting_title">Фотогорафии</h3>
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Item_Desc">Добавить новые фотографии (.jpg, .jpeg, .png, .gif):</label>
+                        <input name="gallery" type="file" class="noplagin" multiple="" accept="image/*" />
+                    </div>
+                </div>
+                <div class="col-sm-5"><a class="button icon-sort pull-right" id="sorting_photo" data-action="noPreloader-accept" title="Добавляет возможность сортировки элементов списка">Сортировать</a></div>
+            </div>
+
+            if (Model.Item.Photoalbom.List != null)
+            {
+                <ul class="photoalbum" data-service="/Works/PhotoChangeSort/" data-album="@Model.Item.Id">
+                    @foreach (PhotoModel photo in Model.Item.Photoalbom.List)
+                    {
+                        <li>
+                            <img src="@photo.Preview" />
+                            <div class="delPhoto" data-id="@photo.Id"></div>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+
+    <div class="dop_info-block">
+        <div class="dop-caption">Настройки</div>
+        @Html.TextBoxFor(m => m.Item.Date, new { required = "", data_type = "datetime", title = "Дата публикации", value = ViewBag.Date, @readonly = "readonly" })
+        @Html.DropDownListFor(m => m.Item.UserId, Model.Users, new { @title = "Авторы работы", @class = "selectpicker", @readonly = "readonly" })
+        @Html.DropDownListFor(m => m.Item.Type, Model.WorkTypes, new { @title = "Тип работы", @class = "selectpicker", @readonly = "readonly" })
+        @Html.CheckBoxFor(m => m.Item.Main, new { @type = "checkbox", @title = "Закрепить на главной", @data_toggle = "toggle", @data_on = "Главная", @data_onstyle = "success", @data_off = "Обычная запись", @data_width = "322" })
+    </div>
+}
+<form id="delete-form" action="/News/Delete/@Model.Item.Id/" method="post"></form>
+
+<div class="buttons">
+    <button form="edit-form" type="submit" data-primary="true" class="button icon-create">Сохранить</button>
+    <button id="btn_delete" type="submit" class="button icon-delete">Удалить</button>
+    <a id="btn_cancel" title="Закрыть Форму и вернуться в список" class="button icon-cancel" href="@ViewBag.cancelBtn">Закрыть</a>
+</div>
+

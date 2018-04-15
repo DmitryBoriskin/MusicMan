@@ -1,0 +1,186 @@
+﻿@model AccountViewModel
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="static-block">
+                <div class="account-photo wite-block">
+                    <img alt="" src="@Model.Item.Photo" />
+                    @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                    {
+                        <a href="/account/edit/">Редактировать профиль</a>
+                    }
+                </div>
+                <div class="account-menu wite-block">
+                    <div class="icon-photo"><a href="/@Model.Item.PageName/photo">Фотографии</a></div>
+                    <div class="icon-music"><a href="/@Model.Item.PageName/music">Музыка</a></div>
+                    <div class="icon-video"><a href="/@Model.Item.PageName/video">Видео</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="account-info wite-block">
+                <div class="photo visible-xs visible-sm">
+                    <img alt="" src="@Model.Item.Photo" />
+                    @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                    {
+                        <a href="/account/edit/">Редактировать профиль</a>
+                    }
+                </div>
+                <div class="my-name"><h1>@Model.Item.Name @Model.Item.LastName</h1></div>
+
+                @if (!String.IsNullOrEmpty(Model.Item.Phone))
+                {
+                    <div class="my-phone"><b>Телефон:</b> <span data-user="@Model.Item.PageName" class="getPhone">+7 (xxx) xxx-xx-xx</span></div>
+                }
+
+                @if (!String.IsNullOrEmpty(Model.Item.Mail))
+                {
+                    <div class="my-email"><b>Эл. почта:</b> <span data-user="@Model.Item.PageName" class="getMail">xxxx@xxxxxx.xx</span></div>
+                }
+
+                @if (!String.IsNullOrEmpty(Model.Item.Description))
+                {
+                    <div class="my-story">
+                        <div><b>О себе</b></div>
+                        @Model.Item.Description
+                    </div>
+                }
+            </div>
+            <div class="account-menu wite-block visible-xs visible-sm">
+                @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                {
+                    <div class="icon-edit">
+                        <a href="/account/edit/">Редактировать профиль</a>
+                    </div>
+                }
+                <div class="icon-photo"><a href="/@Model.Item.PageName/photo">Фотографии</a></div>
+                <div class="icon-music"><a href="/@Model.Item.PageName/music">Музыка</a></div>
+                <div class="icon-video"><a href="/@Model.Item.PageName/video">Видео</a></div>
+            </div>
+            <div class="work-list">
+                @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                {
+                    <div class="work-item wite-block new">
+                        <div class="new-item">Добавить новую запись</div>
+                        <div class="work-item-form">
+                            @using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    @Html.TextBox("Title", "", new { required = "", @placeholder = "заголовок", type = "text", @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="Desc">Описание:</label>
+                                    @Html.TextArea("Desc", "", new { @title = "Описание", @type = "text", @rows = "5", @class = "form-control" })
+                                </div>
+                                <div class="row attachments-block">
+                                    <div class="col-xs-10">
+                                        <div class="add-buttons">
+                                            <div title="Добавить фото" class="add-photo">
+                                                <input type="file" name="gallery" id="gallery" multiple="" data-init="false" accept="image/*">
+                                            </div>
+                                            <div title="Добавить видео" class="add-video">
+                                                @Html.TextBox("Url", "", new { @title = "Ссылка на Youtube", placeholder = "Ссылка на Youtube" })
+                                            </div>
+                                            <div title="Добавить музыку" class="add-music">
+                                                <input type="file" name="music" id="music" data-init="false" accept=".mp3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2" style="text-align: right;">
+                                        <button type="submit" name="action" value="sand" class="btn">Сохранить</button>
+                                    </div>
+                                </div>
+                            }
+                            <div class="comment">
+                                Вам доступно размещение неограниченного количество своих работ. Каждая работа может содержать картинки, музыку или видео, размешенное на Youtube.<br />
+                                Бесплатный аккаунт позволяет загружать фото и  музыку не более 50 Мб.<br />
+                                Вы разместили уже @ViewBag.DirSize из 50 Мб. После достижения лимита на загрузку контента, вы сможете создавать только видео или текстовые записи.
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Model.AccountWorks != null && Model.AccountWorks.Data != null)
+                {
+
+                    foreach (WorkModel item in Model.AccountWorks.Data)
+                    {
+                        <div id="work-@item.Id" class="work-item wite-block">
+                            @if (Model.Account != null && Model.Item.PageName == Model.Account.PageName)
+                            {
+                                <div class="del-work"><a data-id="@item.Id" href="/del/">x</a></div>
+                            }
+                            <div class="work-title">@item.Title</div>
+                            <div class="work-date">
+                                Опубликовано: <span>@item.Date.ToString("dd MMM. yyyy в HH:mm")</span>
+                            </div>
+                            @if (item.Type == "text" && !String.IsNullOrEmpty(item.Preview) && String.IsNullOrEmpty(item.Video) && String.IsNullOrEmpty(item.Url))
+                            {
+                                <div class="image"><img src="@item.Preview" /></div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Video))
+                            {
+                                <div class="video-block">
+                                    <video width="100%" height="100%" id="player" controls="controls" poster="@item.Preview">
+                                        <source src="@item.Video" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2">
+                                    </video>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Url))
+                            {
+                                <div class="video-block">
+                                    <iframe class="youtube" width="100%" height="100%" src="@item.Url" frameborder="0" allowfullscreen></iframe>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (!String.IsNullOrEmpty(item.Audio))
+                            {
+                                <div class="audio-block">
+                                    <audio controls src="@item.Audio" typeof="audio/mpeg"></audio>
+                                    <div class="video-inspector"></div>
+                                </div>
+                            }
+                            @if (item.Photoalbom.List != null)
+                            {
+                                <div class="photo-block">
+                                    <div class="photo-gallary">
+                                        @foreach (PhotoModel photo in item.Photoalbom.List)
+                                        {
+                                            <div class="gallary-item">
+                                                <a class="swipebox" href="@photo.Url" target="_blank">
+                                                    <img title="название" src="@photo.Preview" />
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <div class="work-info">
+                                @Html.Raw(item.Info)
+                            </div>
+                            @if (Model.Account != null)
+                            {
+                                <div class="work-date">
+                                    Мне нравится:
+                                    @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id, UserId = Model.Account.id }); }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="work-date">
+                                    Мне нравится:
+                                    @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id }); }
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-info">Не найдено ни одной записи.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

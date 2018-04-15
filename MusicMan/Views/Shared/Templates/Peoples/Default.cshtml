@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    if (Model.Data != null)
+    {
+        foreach (User Item in Model.Data)
+        {
+            <a title="" href="/@Item.PageName">
+                <div class="people-item wite-block">
+                    <img class="people-photo" alt="" src="@Item.Photo" />
+                    <div class="people-info">
+                        <div class="li-caption">@Item.Surname @Item.Name</div>
+                        <div class="li-desc">
+                            @foreach (string category in Item.Category)
+                            {
+                                <span>@category,</span> 
+                            }
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+}

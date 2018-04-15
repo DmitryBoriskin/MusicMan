@@ -1,0 +1,81 @@
+﻿@{
+    Layout = null;
+    string ActiveClass = "";
+}
+
+<div class="admin-menu">
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-home-1" href="/">Главная</a>
+    </div>
+    <hr />
+</div>
+<div class="admin-menu">
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-picture" href="/slider/">Слайдер</a>
+    </div>
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-megaphone" href="/news/">Новости</a>
+    </div>
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-video" href="/video/">Видео</a>
+    </div>
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-picture" href="/banners/">Баннеры</a>
+    </div>
+    <hr />
+</div>
+<div class="admin-menu">
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-user-3" href="/Users/">Пользователи</a>
+    </div>
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-share" href="/works/">Работы</a>
+    </div>
+    <hr />
+</div>
+<div class="admin-menu">
+    <div class="admin-menu_item @ActiveClass">
+        <a class="icon-cog" href="/Settings/">Настройки сайта</a>
+    </div>
+</div>
+
+
+
+
+@if (Model != null)
+{
+    foreach (cmsMenuModel menuGroup in Model)
+    {
+        if (menuGroup.GroupItems != null)
+        {
+            <div class="admin-menu @menuGroup.Alias">
+                @foreach (cmsMenuItem Item in menuGroup.GroupItems)
+                {
+                    string Url = "/" + Item.Alias + "/";
+
+                    try
+                    {
+                        if (Request.Url.Segments[1].ToString().ToLower() == Item.Alias.ToLower() + "/")
+                        {
+                            ActiveClass = "selected";
+                        }
+                    }
+                    catch
+                    {
+                        if (Item.Alias.ToLower() == "main")
+                        {
+                            ActiveClass = "selected";
+                        }   
+                    }
+
+                    <div class="admin-menu_item @ActiveClass">
+                        <a class="@Item.Class" href="@Url">@Item.Title</a>
+                    </div>
+
+                    ActiveClass = String.Empty;
+                }
+                <hr />
+            </div>
+        }
+    }
+}

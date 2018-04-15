@@ -1,0 +1,63 @@
+﻿
+@{ Html.RenderAction("Menu", "Templates"); }
+
+@section Header {
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+}
+
+<div class="page-title">
+    <h1>@ViewBag.Title</h1>
+</div>
+<div class="page-content">
+    <div class="wite-block pad-20">
+        @Html.Raw(ViewBag.PageInfo)
+        <div class="row">
+
+            <div class="col-md-5">
+                <h3>Сообщение редактору сайта</h3>
+                @using (Html.BeginForm("Contacts", "Page", FormMethod.Post))
+                {
+                    @Html.TextBox("Name", "", new { required = "", @Title = "Ввевите Ваше имя", @placeholder = "ФИО", MaxLength = "128" })
+                    @Html.TextBox("Mail", "", new { required = "", type = "email", maxlength = "128", @placeholder = "mail@domain.com", autocomplete = "off", title = "Email адрес" })
+                    @Html.TextBox("Phone", "", new { maxlength = "64", @title = "Номер телефона", @placeholder = "+7 999 999999", @data_mask = "+7 (999) 999-99-99" })
+                    @Html.TextBox("Country", "", new { maxlength = "64", @title = "Введите страну и город проживания", @placeholder = "Страна, город" })
+                    @Html.TextArea("Massege", "", new { @title = "Сообщение", @type = "text", @rows = "10" })
+                    <div>
+                        <div class="g-recaptcha" data-sitekey="6Lc9GEAUAAAAABfeIC49XGtCYQ2_pBQofDxauofw"></div>
+                    </div>
+                    <div class="welcome-btn">
+                        <button id="LoginButton" name="action" value="edit" class="send-button">Отправить</button>
+                    </div>
+                }
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-5">
+                <h3>Контакты</h3>
+                <div>
+                    @if (!String.IsNullOrEmpty(Model.Settings.Mail))
+                    {
+                        <div class="messege mail"><span>E-Mail:</span> <a href="mailto:@Model.Settings.MailTo">@Model.Settings.Mail</a></div>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Settings.viber))
+                    {
+                        <div class="messege viber"><span>Viber:</span> @Model.Settings.viber</div>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Settings.whatsapp))
+                    {
+                        <div class="messege whatsapp"><span>Whatsapp:</span> @Model.Settings.whatsapp</div>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Settings.telegram))
+                    {
+                        <div class="messege telegram"><span>Telegram:</span> @Model.Settings.telegram</div>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Settings.skype))
+                    {
+                        <div class="messege skype"><span>Skype:</span> @Model.Settings.skype</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+﻿@{ Html.RenderAction("Slider", "Templates", new { sectionId= "slider" }); }
+@{ Html.RenderAction("Menu", "Templates"); }
+
+
+@if (!String.IsNullOrEmpty(ViewBag.Marquee))
+{
+    <div class="site-info">
+        <marquee direction="left">
+            @Html.Raw(ViewBag.Marquee)
+        </marquee>
+    </div>
+}
+@{ Html.RenderAction("Works", "Templates", new { ListSize = 8 }); }
+<div class="image_link-block">
+    <div class="row">
+        <div class="col-xs-6 col-md-3">
+            <a title="Бесплатная регистрация" href="/Account/reg/"><img alt="Бесплатная регистрация" title="Бесплатная регистрация" src="/Content/img/image_link/b1.png" /></a>
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <a href=""><img alt="" title="" src="/Content/img/image_link/b2.png" /></a>
+        </div>
+        <div class="col-md-3 visible-md visible-lg">
+            <a title="наша группа в Вконтакте" href="https://vk.com/musicmantv"><img alt="группа в Вконтакте" title="группа в Вконтакте" src="/Content/img/image_link/b3.png" /></a>
+        </div>
+        <div class="col-md-3 visible-md visible-lg">
+            <a title="наш канал на Youtube" href="https://www.youtube.com/channel/UCyiVKyhhPiEDgrfyg0s9iCQ"><img alt="наш канал на Youtube" title="наш канал на Youtube" src="/Content/img/image_link/b4.png" /></a>
+        </div>
+    </div>
+</div>
+@{ Html.RenderAction("News", "Templates",  new { ListSize = 4 }); }
+<div class="image_link-block visible-xs visible-sm">
+    <div class="row">
+        <div class="col-xs-6">
+            <a title="наша группа в Вконтакте" href="https://vk.com/musicmantv"><img alt="группа в Вконтакте" title="группа в Вконтакте" src="/Content/img/image_link/b3.png" /></a>
+        </div>
+        <div class="col-xs-6">
+            <a title="наш канал на Youtube" href="https://www.youtube.com/channel/UCyiVKyhhPiEDgrfyg0s9iCQ"><img alt="наш канал на Youtube" title="наш канал на Youtube" src="/Content/img/image_link/b4.png" /></a>
+        </div>
+    </div>
+</div>
+<div class="users-work row">
+    <div class="col-md-3">
+        <div class="user_work-list">
+            <div class="group-title">Музыканты</div>
+            @{ Html.RenderAction("Peoples", "Templates", new { ListSize = 5, Group = "musicians" }); }
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="user_work-list">
+            <div class="group-title">Диджеи</div>
+            @{ Html.RenderAction("Peoples", "Templates", new { ListSize = 5, Group = "DJs" }); }
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="user_work-list">
+            <div class="group-title">Певцы</div>
+            @{ Html.RenderAction("Peoples", "Templates", new { ListSize = 5, Group = "singers" }); }
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="user_work-list">
+            <div class="group-title">Группы</div>
+            @{ Html.RenderAction("Peoples", "Templates", new { ListSize = 5, Group = "groups" }); }
+        </div>
+    </div>
+</div>
+@{ Html.RenderAction("Menu", "Templates"); }

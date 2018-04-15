@@ -1,0 +1,25 @@
+﻿@model RestoreModel
+@{
+    Layout = "~/Views/Shared/_login.cshtml";
+}
+
+<div class="WelcomeContentLeft">
+    <div class="LoginCaption">Изменение пароля</div>
+    @using (Html.BeginForm("LogIn", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <div class="WelcomeInfo">
+                <p>&nbsp;</p>
+            </div>
+            <div class="WelcomeBtn">
+                @*<input id="LoginButton" type="submit" value="Перейти к авторизации" />*@
+                <a class="RegButton" href="/">Перейти к авторизации</a>
+                <span class="icon-right-4"></span>
+            </div>
+        </div>
+    }
+</div>
+<div class="WelcomeContentRight">
+    Ваш пароль успешно изменен.
+</div>

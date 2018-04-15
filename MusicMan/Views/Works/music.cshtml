@@ -1,0 +1,51 @@
+﻿
+@{ Html.RenderAction("Menu", "Templates"); }
+
+<div class="page-title">
+    <h1>@ViewBag.Title</h1>
+</div>
+<div class="page-content">
+    @if (Model.List != null)
+    {
+        foreach (WorkModel item in Model.List.Data)
+        {
+            <div id="work-@item.Id" class="work-item wite-block">
+                <div class="people-item">
+                    <img class="people-photo small" alt="" src="@item.UserPhoto">
+                    <div class="people-info"><a title="" class="li-caption" href="/@item.User/">@item.UserName</a></div>
+                </div>
+                <div class="work-title"><a title="" href="/@item.User#work-@item.Id">@item.Title</a></div>
+                <div class="work-date">Опубликовано: <span>@item.Date.ToString("dd MMM. yyyy в HH:mm")</span></div>
+                @if (item.Url != String.Empty)
+                {
+                    <div class="audio-block">
+                        <audio controls src="@item.Audio" typeof="audio/mpeg"></audio>
+                        <div class="video-inspector"></div>
+                    </div>
+                }
+                <div class="work-info">@Html.Raw(item.Desc)</div>
+                @if (Model.Account != null)
+                {
+                    <div class="work-date">
+                        Мне нравится:
+                        @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id, UserId = Model.Account.id }); }
+                    </div>
+                }
+                else
+                {
+                    <div class="work-date">
+                        Мне нравится:
+                        @{ Html.RenderAction("Like", "Templates", new { WorkId = item.Id }); }
+                    </div>
+                }
+            </div>
+        }
+        <form>
+            @{ Html.RenderAction("Pager", "Templates", new { @Model = Model.List.Pager }); }
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-info">Не найдено ни одной записи.</div>
+    }
+</div>

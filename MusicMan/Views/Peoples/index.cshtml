@@ -1,0 +1,32 @@
+﻿@{ Html.RenderAction("Menu", "Templates"); }
+
+<div class="page-title">
+    <h1>@ViewBag.Title</h1>
+</div>
+<div class="page-content">
+    @if (Model.List != null)
+    {
+        foreach (User Item in Model.List.Data)
+        {
+            <div class="@Item.Group-block pad-20">
+                <div class="people-item">
+                    <a title="" class="li-caption" href="/@Item.PageName"><img class="people-photo" alt="" src="@Item.Photo" /></a>
+                    <div class="people-info">
+                        <a title="" class="li-caption" href="/@Item.PageName">@Item.Surname @Item.Name</a>
+                        <div class="li-desc">
+                            @foreach (string category in Item.Category)
+                            {
+                                <span>@category,</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        Html.RenderAction("Pager", "Templates", new { @Model = Model.List.Pager });
+    }
+    else
+    {
+        <div class="alert alert-info">Не найдено ни одной записи.</div>
+    }
+</div>

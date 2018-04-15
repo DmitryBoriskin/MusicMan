@@ -1,0 +1,75 @@
+﻿@model MainViewModel
+
+<form>
+    <div class="content">
+        <h1>Статистика за 14 дней</h1>
+        <div id="users_chart" style="width: 100%; height: 500px;"></div>
+        <div id="works_chart" style="width: 100%; height: 500px;"></div>
+
+        @if (Model!=null && Model.Statistic != null)
+        {
+            <script type="text/javascript">
+                google.charts.load('current', { 'packages': ['corechart'] });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var UsersData = google.visualization.arrayToDataTable([
+                        ['Дата', 'Всего', 'пользователей VK', 'пользователей Facebook']
+                        @foreach (statModel item in Model.Statistic) {
+                            var line = ",[\"" + item.Date.ToString("dd.MM.yyyy") + "\", " + item.AllUsers.ToString() + ", " + item.UsersVk.ToString() + ", " + item.UsersFb.ToString() + "]";
+                            @Html.Raw(line)
+                        }
+                    ]);
+                    var options1 = {
+                        title: 'Зарегистрировано пользователей за последние 14 дней',
+                        legend: { position: 'bottom' },
+                        hAxis: { title: 'Дата', titleTextStyle: { color: '#333' } },
+                        vAxis: { title: 'Пользователи', titleTextStyle: { color: '#333' }, minValue: 0 }
+                    };
+                    var u_chart = new google.visualization.AreaChart(document.getElementById('users_chart'));
+                    u_chart.draw(UsersData, options1);
+
+                    var WorksData = google.visualization.arrayToDataTable([
+                        ['Дата', 'размещено записей']
+                        @foreach (statModel item in Model.Statistic) {
+                            var line = ",[\"" + item.Date.ToString("dd.MM.yyyy") + "\", " + item.Works.ToString()  + "]";
+                            @Html.Raw(line)
+                        }
+                    ]);
+                    var options2 = {
+                        title: 'Размещено записей за последние 14 дней',
+                        legend: { position: 'bottom' },
+                        hAxis: { title: 'Дата', titleTextStyle: { color: '#333' } },
+                        vAxis: { title: 'Записи', titleTextStyle: { color: '#003300' }, minValue: 0 }
+                    }; var w_chart = new google.visualization.AreaChart(document.getElementById('works_chart'));
+                    w_chart.draw(WorksData, options2);
+                }
+
+            </script>
+        }
+    </div>
+
+    @*<div class="dop_info-block"></div>*@
+    
+    @* Блок кнопок *@
+    <div class="buttons"></div>
+    @* //Блок кнопок *@
+</form>
+
+
+
+@*
+    Атрибуты полей
+
+
+    @class = "uc_input" - обязательный класс для инициализации
+    @title              - Название поля
+    @placeholder        - Надпись по умолчанию в пустом поле
+    @required           - обязательно для заполнения
+    @readonly           - поле только для чтения
+    @type               - тип поля
+    @max-length         - максимальное кол-во вводимых символов
+    @data_help          - всплывающая подсказка
+    @data_mask          - маска ввода
+
+*@

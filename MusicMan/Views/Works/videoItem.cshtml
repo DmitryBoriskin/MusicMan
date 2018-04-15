@@ -1,0 +1,36 @@
+﻿@model WorksViewModel
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Musicman.tv</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="ru" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        html,
+        body,
+        video {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            background: #000000;
+            -o-object-position: center;
+            -o-text-overflow: inherit;
+
+        }
+    </style>
+</head>
+<body>
+    <video id="player" controls="controls" poster="@Model.Item.Preview">
+        <source src="@Model.Item.File" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2">
+    </video>
+</body>
+</html>

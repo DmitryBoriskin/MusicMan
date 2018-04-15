@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Version = "1.0.1";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Musicman.tv</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="ru" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.KeyWords" />
+
+    <link rel="shortcut icon" href="/Content/img/favicon.ico">
+
+    <link href="/Content/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/plugins/Slicebox/jquery.slicebox.css" rel="stylesheet">
+    <link href="/Content/css/styles.css" rel="stylesheet">
+    <link href="/Content/plugins/Disly/DislyControls.css" rel="stylesheet">
+    <link href="/Content/plugins/mobileGallery/swipebox.css" rel="stylesheet" type="text/css">
+
+    <script src="/Content/plugins/jquery/jquery.js"></script>
+    <script src="/Content/plugins/jquery/jquery.ui.js"></script>
+    <script type="text/javascript" src="/Content/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Content/plugins/Slicebox/modernizr.custom.46884.js"></script>
+    <script type="text/javascript" src="/Content/plugins/Slicebox/jquery.slicebox.js"></script>
+    <script type="text/javascript" src="/Content/plugins/mobileGallery/js/jquery.swipebox.js"></script>
+    <script type="text/javascript" src="/Content/plugins/jquery/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="/Content/js/script.js"></script>
+    @RenderSection("Header", false)
+</head>
+<body>
+    <div class="top-line">
+        <div class="container">
+            <div class="header">
+                <div class="row">
+                    <div class="logo">
+                        <a href="/">
+                            <img title="" src="/Content/img/logo3.jpg" />
+                            <div>@Settings.SiteTitle<span>@Settings.SiteDesc</span></div>
+                        </a>
+                    </div>
+                    <div class="login">
+
+                        @if (Model.Account != null)
+                        {
+                            <div class="login-block">
+                                <a class="icon-link_my" href="/@Model.Account.PageName"><span>Личный кабинет</span></a> @(" | ")
+                                <a class="icon-link_logout" href="/Account/LogOff/"><span class="hidden-xs">Выход</span></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="login-block">
+                                <a class="icon-link_login" href="/Account/login/"><span class="">Войти</span></a> @(" | ")
+                                <a class="icon-link_reg" href="/Account/reg/"><span class="">Зарегистрироваться</span></a>
+                            </div>
+                            <div class="soc-seti">
+                                <a class="vk" href="/Account/LogIn_vk"><img alt="" title="" src="/Content/img/vk.png" /></a>
+                                <a class="fb" href="/Account/LogIn_facebook"><img alt="" title="" src="/Content/img/facebook.png" /></a>
+                            </div>
+                        }
+                        <div class="serch-form hidden-xs">
+                            @*@using (Html.BeginForm())
+                                {
+                                    @Html.TextBox("SershText", "", new { @class = "RegField", @placeholder = "поиск" })
+                                }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-block">
+        <div class="container">
+            @RenderBody()
+            <div class="footer">
+                <div class="bottom-menu" style="text-align: center;">
+                    <a href="/Advertising/">Реклама на сайте</a>
+                    <a href="/Helping/">Помощь проекту</a>
+                    <a href="/partners/">Партнеры</a>
+                    <a href="/mission/">Наша миссия</a>
+                    <a href="/regulations/">Правила пользования сайтом</a>
+                    <a href="/producing/">Продюсирование</a>
+                    @*<a href="/Advertising/">Реклама на сайте</a>
+    <a href="/Advertising/">Реклама на сайте</a>*@
+                </div>
+                <div class="row">
+                    <div class="copyright">
+                        <a href="/">© @Settings.SiteTitle<span>@Settings.SiteDesc</span>, 2017-@DateTime.Now.ToString("yyyy")</a>
+                    </div>
+                    <div class="bottom-menu" style="display: inline-block;">
+                    </div>
+                    <div class="bottom-soc-seti">
+                        @if (!String.IsNullOrEmpty(Model.Settings.instagram))
+                        {
+                            <a target="_blank" href="@Model.Settings.instagram"><img alt="" title="" src="/Content/img/insta.png" /></a>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Settings.vk))
+                        {
+                            <a target="_blank" href="@Model.Settings.vk"><img title="" src="/Content/img/vk.png" /></a>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Settings.facebook))
+                        {
+                            <a target="_blank" href="@Model.Settings.facebook"><img title="" src="/Content/img/facebook.png" /></a>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Settings.youtube))
+                        {
+                            <a target="_blank" href="@Model.Settings.youtube"><img alt="" title="" src="/Content/img/youtube.png" /></a>
+                        }
+
+                    </div>
+                    <div class="counter" style="display: inline-block;">
+                        <!--LiveInternet counter-->
+                        <script type="text/javascript">
+                            document.write("<a href='//www.liveinternet.ru/click' " +
+                                "target=_blank><img src='//counter.yadro.ru/hit?t21.8;r" +
+                                escape(document.referrer) + ((typeof (screen) == "undefined") ? "" :
+                                    ";s" + screen.width + "*" + screen.height + "*" + (screen.colorDepth ?
+                                        screen.colorDepth : screen.pixelDepth)) + ";u" + escape(document.URL) +
+                                ";h" + escape(document.title.substring(0, 150)) + ";" + Math.random() +
+                                "' alt='' title='LiveInternet: показано число просмотров за 24" +
+                                " часа, посетителей за 24 часа и за сегодня' " +
+                                "border='0' width='88' height='31'><\/a>")
+                        </script><!--/LiveInternet-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-block">
+        @Html.Partial("Partial/modal")
+    </div>
+</body>
+</html>

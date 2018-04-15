@@ -1,0 +1,17 @@
+﻿
+@{ Html.RenderAction("Menu", "Templates"); }
+
+@section Header {
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+}
+
+<div class="page-title">
+    <h1>@ViewBag.Title</h1>
+</div>
+<div class="page-content">
+    <div class="wite-block pad-20">
+        <p>Ваше сообщение отправлено администратору сайта. </p>
+        <p>При необходимости мы с вами свяжемся по указанным вами данным.</p>
+        <p>Спасибо за обращение.</p>
+    </div>
+</div>

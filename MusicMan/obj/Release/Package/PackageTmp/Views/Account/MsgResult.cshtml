@@ -1,0 +1,35 @@
+﻿@model AccountViewModel
+
+@section Header {
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+}
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="account-photo wite-block">
+                <img alt="" src="@Model.Account.Photo" />
+            </div>
+            <div class="account-menu wite-block">
+                @{ Html.RenderAction("Menu", "Templates", new { viewName = "user" }); }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="account-info wite-block">
+                <h1>@ViewBag.Title</h1>
+                <p>&nbsp;</p>
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-3">
+                        <h4>Пароль успешно изменен.</h4>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    </div>
+</div>

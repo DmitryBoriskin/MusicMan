@@ -1,0 +1,42 @@
+﻿@section Header {
+    <script type="text/javascript" src="/Content/plugins/Disly/DislyControls.js"></script>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="login-wall hidden-xs hidden-sm">
+            <img src="~/Content/img/login/login-wall.jpg" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="login-form wite-block pad-20">
+            @Html.AntiForgeryToken()
+            <div class="welocome-title">
+                <div>@Settings.SiteTitle<span>@Settings.SiteDesc</span></div>
+            </div>
+            <div class="welocome-form">
+                @using (Html.BeginForm())
+                {
+                    <div class="welocome-login">
+                        @Html.TextBox("Login", "", new { @class = "RegField", title = "Логин", @placeholder = "Логин" })
+                        <span class="wel-login icon-user-3"></span>
+                    </div>
+                    <div class="welcome-pass">
+                        @Html.Password("Pass", "", new { @class = "RegField", title = "Пароль", @placeholder = "Пароль" })
+                        <span class="wel-pass icon-lock"></span>
+                    </div>
+                    <p>&nbsp;</p>
+                    <div>
+                        <button id="LoginButton" class="reg-button">Войти</button>
+                    </div>
+                    @Html.ValidationSummary(false, "", new { @class = "alert" })
+                    <hr />
+                    <div>
+                        <a class="login-vk" href="/Account/LogIn_vk">Войти с помощью VK</a>
+                        <a class="login-fb" href="/Account/LogIn_facebook">Войти с помощью Facebook</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

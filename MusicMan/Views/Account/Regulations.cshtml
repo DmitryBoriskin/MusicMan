@@ -1,0 +1,31 @@
+﻿@model AccountViewModel
+
+@section Header {
+
+    <link href="/Content/plugins/bootstrap/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-select.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-toggle.js"></script>
+    
+}
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="account-photo wite-block">
+                <img alt="" src="@Model.Account.Photo" />
+            </div>
+            <div class="account-menu wite-block">
+                @{ Html.RenderAction("Menu", "Templates", new { viewName = "user" }); }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="account-info wite-block">
+                <h1>@ViewBag.Title</h1>
+                <div>
+                    @Html.Raw(Model.Regulations)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

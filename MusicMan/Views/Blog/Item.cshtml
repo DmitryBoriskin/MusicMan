@@ -1,0 +1,24 @@
+﻿
+@{ Html.RenderAction("Menu", "Templates"); }
+
+<div class="page-content">
+    @if (Model.Item != null)
+    {
+        <div class="blog-item wite-block">
+            @if (!String.IsNullOrEmpty(Model.Item.Preview))
+            {
+                <div class="image"><img src="@Model.Item.Preview" /></div>
+            }
+            <div class="title">@Model.Item.Title</div>
+            <div class="date">@Model.Item.Date.ToString("dd MMMM yyyy")</div>
+            <div class="desc">@Html.Raw(Model.Item.Text)</div>
+            <div class="back-to-news">
+                <a title="Вернуться к списку новостей" href="/blog/">Вернуться к списку новостей</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Страница не найдена.</div>
+    }
+</div>

@@ -1,0 +1,56 @@
+﻿@model AccountViewModel
+
+@section Header {
+
+    <link href="/Content/plugins/bootstrap/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+
+    <script src="/Content/plugins/Disly/DislyControls.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-select.js"></script>
+    <script src="/Content/plugins/bootstrap/js/bootstrap-toggle.js"></script>
+    
+}
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="account-photo wite-block">
+                <img alt="" src="@Model.Account.Photo" />
+            </div>
+            <div class="account-menu wite-block">
+                @{ Html.RenderAction("Menu", "Templates", new { viewName = "user" }); }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="account-info wite-block">
+                <h1>@ViewBag.Title</h1>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        Для быстрой авторизации на сайте вы можете подключить аккаунты социальных сетей и авторизоваться в один клик.
+                        <p></p>
+                        <div class="row">
+                            @if (String.IsNullOrEmpty(Model.Account.vkId))
+                            {
+                                <div class="col-sm-6"><a class="login-vk" href="/Account/add_vk/">Подключить VK</a></div>
+                            }
+                            else
+                            {
+                                string vk_url = "https://vk.com/id" + Model.Account.vkId;
+                                <div class="col-sm-6"><a class="login-vk" target="_blank" href="@vk_url">Подключен профель VK</a></div>
+                            }
+                        </div>
+                        <div class="row">
+                            @if (String.IsNullOrEmpty(Model.Account.fbId))
+                            {
+                                <div class="col-sm-6"><a class="login-fb" href="/Account/add_facebook/">Подключить Facebook</a></div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-6"><a class="login-fb" target="_blank" href="https://www.facebook.com/@Model.Account.fbId">Подключен профель Facebook</a></div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

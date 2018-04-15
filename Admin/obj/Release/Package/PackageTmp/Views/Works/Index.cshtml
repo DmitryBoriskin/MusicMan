@@ -1,0 +1,62 @@
+﻿@model WorksViewModel
+@{
+    int maxChars = 150;
+}
+
+<div class="content">
+    <h1>@ViewBag.Title</h1>
+
+    @if (Model.List != null)
+    {
+        foreach (WorkModel Item in Model.List.Data)
+        {
+            <div class="row list-item">
+                <div>
+                    <div class="li-title">
+                        <a title="@Item.Title" class="li-caption" href="/works/item/@Item.Id/@ViewBag.urlQuery">@Item.Title</a>
+                    </div>
+                    <div class="li-desc">
+                        <span>Опубликовано:</span> @Convert.ToDateTime(Item.Date).ToString("dd MMMM yyyy")<br />
+                        <span>Автор:</span>
+                        <a title="@Item.UserName" class="li-caption" href="/Users/item/@Item.UserId/">@Item.UserName</a>
+                    </div>
+                    @if (!String.IsNullOrEmpty(Item.Desc))
+                    {
+                        <div class="li-desc">
+                            <span>Краткое описание:</span><br />
+                            @Item.Desc
+                        </div>
+                    }
+                </div>
+
+            </div>
+        }
+        Html.RenderAction("Pager", "Templates", new { @Model = Model.List.Pager });
+    }
+    else
+    {
+        <div class="alert alert-info">Не найдено ни одной записи.</div>
+    }
+</div>
+
+
+<div class="dop_info-block">
+    <div class="dop-caption">Фильтр</div>
+    <div class="row">
+        @using (Html.BeginForm("Search", "Works", FormMethod.Post, new { id = "filtr-form" }))
+        {
+            @Html.TextBox("searchtext", Request.QueryString["searchtext"], new { @title = "Поиск по ключевым словам", @placeholder = "поиск...", @MaxLength = "512" })
+            @Html.DropDownList("person", Model.Users, new { @title = "Авторы работ", @class = "selectpicker", @data_live_search = "true" })
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-6"><button form="filtr-form" type="submit" class="button btn-primary">Применить</button></div>
+        <div class="col-md-6">
+            <a title="Сбросить фильтр" class="button btn-default" href="@ViewBag.clearBtn">Сбросить</a>
+        </div>
+    </div>
+</div>
+
+<div class="buttons">
+    @*<button type="submit" name="action" value="insert-btn" class="button icon-create">Создать</button>*@
+</div>

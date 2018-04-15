@@ -1,0 +1,69 @@
+﻿@model UsersViewModel
+
+<form id="edit-form" action="/Users/Item/@Model.Item.Id/" method="post" enctype="multipart/form-data">
+    <div class="content">
+        <h1>Данные пользователя</h1>
+        <div class="row">
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => Model.Item.Surname, new { @required = "", @Title = "Фамилия", @placeholder = "Фамилия", MaxLength = "128", data_help = "12" })
+            </div>
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => Model.Item.Name, new { @required = "", @Title = "Имя", @placeholder = "Имя", MaxLength = "128", data_help = "12" })
+            </div>
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => Model.Item.PageName, new { @required = "", @Title = "Название страницы", @placeholder = "Page Name", @MaxLength = "128" })
+            </div>
+        </div>
+        @Html.TextBoxFor(m => m.Item.Photo, new { type = "file", title = "Картинка для предпросмотра", data_help = "размер фотографии должен быть не менне 400 точек по ширине" })
+        <br />
+        <div class="group-block rules open" title="Контакты">
+            @Html.TextBoxFor(m => m.Item.Phone, new { maxlength = "64", @placeholder = "Телефон (моб.)", @data_mask = "+7 (999) 999-99-99" })
+            @Html.TextAreaFor(m => m.Item.Info, new { @title = "О себе", @type = "editor", @rows = "8" })
+        </div>
+    </div>
+
+    <div class="dop_info-block">
+        <div class="dop-caption">Настройки</div>
+        @Html.DropDownListFor(m => m.Item.Group, Model.GroupList, new { @title = "Приоритет", @class = "selectpicker", @readonly = "readonly" })
+        @Html.DropDownList("Item.Category", new MultiSelectList(Model.CategoryList, "Value", "Text", Model.Item.Category), new { @title = "направления деятельности", @class = "selectpicker", @multiple = "multiple" })
+        <div class="group-block rules open" title="Права авторизации">
+            @Html.TextBoxFor(m => m.Item.EMail, new { required = "", type = "email", maxlength = "128", autocomplete = "off", title = "Email адрес", @data_help = "123" })
+            @if (Model.Item == null)
+            {
+                @Html.TextBoxFor(m => Model.Password.Password, new { @required = "", type = "password", minlength = "6", maxlength = "16", autocomplete = "off", @title = "Пароль", @data_help = "Пароль должен содержать латинские буквы и не менее одной цифры. Длина пароля должна быть от 6 до 16 символов" })
+                @Html.TextBoxFor(m => Model.Password.PasswordConfirm, new { @required = "", type = "password", minlength = "6", maxlength = "16", autocomplete = "off", @title = "Подтверждение пароля" })
+            }
+            @Html.CheckBoxFor(m => m.Item.Disabled, new { @type = "checkbox", @title = "Доступ к CMS", @data_toggle = "toggle", @data_help = "123", @data_on = "Учетная запись отключена", @data_onstyle = "danger", @data_off = "Доступ разрешен", @data_offstyle = "success", @data_width = "248" })
+        </div>
+        @if (Model.Item.vkId != null)
+        {
+            <div class="socseti-btn">
+                @{ string vk_url = "https://vk.com/id" + Model.Item.vkId;}
+                <a class="login-vk" target="_blank" href="@vk_url">подключен профель VK</a>
+            </div>
+        }
+        @if (!String.IsNullOrEmpty(Model.Item.fbId))
+        {
+            <div class="socseti-btn">
+                <a class="login-fb" target="_blank" href="https://www.facebook.com/@Model.Item.fbId">подключен профель  Facebook</a>
+            </div>
+        }
+        @if (Model.Item != null)
+        {
+            <hr />
+            @Html.ActionLink("Изменить пароль", "ChangePass", "services", new { @id = Model.Item.Id }, new { @id = "ChengePass", @class = "button pop-up_frame icon-key-1", @data_class = "ChengePass", @title = "Изменить пароль" })
+            <hr />
+            @Html.ActionLink("Журнал изменений", "log", "services", new { @id = Model.Item.Id }, new { @id = "LogLists", @class = "button pop-up_frame icon-archive", @data_class = "LogList", @title = "Журнал изменений" })
+            @Html.ActionLink("Активность пользователя", "log", "services", new { @id = Model.Item.Id }, new { @id = "LogLists", @class = "button pop-up_frame icon-archive", @data_class = "LogList", @title = "Журнал изменений" })
+        }
+       
+    </div>
+</form>
+<form id="delete-form" action="/Users/Delete/@Model.Item.Id/" method="post"></form>
+
+<div class="buttons">
+    <button form="edit-form" type="submit" data-primary="true" class="button icon-create">Сохранить</button>
+    <button id="btn_delete" type="submit" class="button icon-delete">Удалить</button>
+    <a id="btn_cancel" title="Закрыть Форму и вернуться в список" class="button icon-cancel" href="@ViewBag.cancelBtn">Закрыть</a>
+</div>
+

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    if (Model != null)
+    {
+        <div class="blog-list">
+            <div class="row">
+                @foreach (var item in Model.Data)
+                {
+                    <div class="col-md-3">
+                        <div class="blog-item  wite-block">
+                            @if (!String.IsNullOrEmpty(item.Preview))
+                            {
+                                <div class="image"><a href="/@item.User#work-@item.Id"><img src="@item.Preview" /></a></div>
+                            }
+                            <div class="title"><a href="/@item.User#work-@item.Id">@item.Title</a></div>
+                            <div class="date">@item.Date.ToString("dd MMMM yyyy")</div>
+                            <div class="desc">
+                                @item.Desc
+                                <div class="more"><a href="/@item.User#work-@item.Id">читать далее »</a></div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
